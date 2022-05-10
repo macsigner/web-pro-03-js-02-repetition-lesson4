@@ -2,6 +2,13 @@
 <head>
     <meta charset="UTF-8">
 </head>
+<style>
+    div[id]::before {
+        content: attr(id) ': ';
+        display: inline-block;
+        min-width: 4.6em;
+    }
+</style>
 <body>
 
 <div id="keyup"></div>
@@ -23,6 +30,13 @@
      * Welcher Event ist der Beste für die Texteingabe eines Benutzers?
     */
 
+    let divs = document.querySelectorAll('div[id]');
+    let input = document.createElement('input');
+    document.body.insertBefore(input, document.body.firstElementChild);
+
+    for (let div of divs) {
+        input.addEventListener(div.id, () => div.innerHTML = input.value);
+    }
 
 </script>
 </body>

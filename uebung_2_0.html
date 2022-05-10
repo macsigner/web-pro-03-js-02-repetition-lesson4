@@ -10,6 +10,15 @@
      * Der zweite Butotn mit dem Text "Log" soll etwas auf der Konsole ausgeben
      */
 
+    let alertButton = document.createElement('button');
+    alertButton.innerHTML = 'Alert';
+    alertButton.addEventListener('click', () => alert('Das ist ein Alert'));
+    document.body.appendChild(alertButton);
+
+    let logButton = document.createElement('button');
+    logButton.innerHTML = 'Log';
+    logButton.addEventListener('click', () => console.log(this));
+    document.body.appendChild(logButton);
 </script>
 </body>
 </html>
