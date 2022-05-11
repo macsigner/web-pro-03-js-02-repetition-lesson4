@@ -39,6 +39,47 @@
        Das Ergebnis soll in das Element mit der ID ergebnis gespeichert werden
     */
 
+    let add = (a, b) => {
+        return a + b;
+    }
+
+    let subtract = (a, b) => {
+        return a - b;
+    }
+
+    let multiply = (a, b) => {
+        return a * b;
+    }
+
+    let divide = (a, b) => {
+        return a / b;
+    }
+
+    let updateResult = (fn) => {
+        let result = fn.call(this, ...getInputValues());
+
+        document.querySelector('#ergebnis').value = result;
+    }
+
+    let getInputValues = () => {
+        let inputOne = document.querySelector('#zahl1');
+        let inputTwo = document.querySelector('#zahl2');
+
+        let numbers = [];
+        numbers.push(parseInt(inputOne.value));
+        numbers.push(parseInt(inputTwo.value));
+
+        return numbers;
+    }
+
+    document.querySelector('#addieren').addEventListener('click', () => updateResult(add));
+
+    document.querySelector('#subtrahieren').addEventListener('click', () => updateResult(subtract));
+
+    document.querySelector('#multiplizieren').addEventListener('click', () => updateResult(multiply));
+
+    document.querySelector('#dividieren').addEventListener('click', () => updateResult(divide));
+
 </script>
 </body>
 </html>
