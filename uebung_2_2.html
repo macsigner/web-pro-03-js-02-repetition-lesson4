@@ -4,6 +4,10 @@
 </head>
 
 <body>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi assumenda debitis esse fugit pariatur. Adipisci dicta
+    dolores enim est facere incidunt modi nobis officia perferendis quasi quidem, quo totam voluptatum.</p>
+<p>Ab ad adipisci autem blanditiis culpa dolorum eaque eum fugiat id impedit labore nam perferendis porro ratione,
+    similique sit sunt tempore! A culpa iste nemo placeat quia quisquam ratione voluptatibus?</p>
 <script>
     /* Aufgabe:
      * Erstell einen Button, welcher beim Klick den Hintergrund der Seite auf eine zufällige Farbe setzt.
@@ -11,6 +15,41 @@
      * Falls du sie noch nicht kennst, schau auf MDN nach.
     */
 
+    // a)
+    let button = document.createElement('button');
+    button.innerHTML = 'Klick';
+    document.body.appendChild(button);
+
+    let getRandomNumber = (max) => {
+        return Math.floor(Math.random() * (max + 1));
+    }
+
+    button.addEventListener('click', () => {
+        let r = parseInt(getRandomNumber(255));
+        let g = parseInt(getRandomNumber(255));
+        let b = parseInt(getRandomNumber(255));
+        let color = `rgb(${r}, ${g}, ${b})`;
+
+        document.body.style.setProperty('background-color', color);
+    });
+
+    // b)
+    let buttonComplementary = document.createElement('button');
+    buttonComplementary.innerHTML = 'Klick Komplementär';
+    document.body.appendChild(buttonComplementary);
+
+    buttonComplementary.addEventListener('click', () => {
+        let h = parseInt(getRandomNumber(360));
+        let s = parseInt(getRandomNumber(100));
+        let l = parseInt(getRandomNumber(100));
+        let color = `hsl(${h}deg, ${s}%, ${l}%)`;
+        let colorComplementary = `hsl(${(h - 180)}deg, ${s}%, ${l}%)`;
+
+        console.log(color, colorComplementary);
+
+        document.body.style.setProperty('color', color);
+        document.body.style.setProperty('background-color', colorComplementary);
+    });
 </script>
 </body>
 </html>
