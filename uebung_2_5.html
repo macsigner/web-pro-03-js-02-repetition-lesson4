@@ -28,6 +28,40 @@
         .move-wrapper .up {
             transform: scale(-1);
         }
+
+        li {
+            animation-duration: .2s;
+            animation-fill-mode: both;
+            animation-timing-function: ease-in-out;
+        }
+
+        li.animation-up {
+            animation-name: up;
+        }
+
+        li.animation-down {
+            animation-name: down;
+        }
+
+        @keyframes up {
+            0% {
+                transform: translateY(100%);
+            }
+
+            100% {
+                transform: translateY(0%);
+            }
+        }
+
+        @keyframes down {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(0%);
+            }
+        }
     </style>
 </head>
 
@@ -105,7 +139,9 @@
         let li = e.target.closest('li');
 
         if (li.parentNode.firstElementChild !== li) {
-            console.log('up');
+            li.classList.add('animation-up');
+            li.previousElementSibling.classList.add('animation-down');
+
             li.parentNode.insertBefore(li, li.previousElementSibling);
         }
     }
@@ -114,6 +150,8 @@
         let li = e.target.closest('li');
 
         if (li.parentNode.lastElementChild !== li) {
+            li.classList.add('animation-down');
+            li.nextElementSibling.classList.add('animation-up');
             li.parentNode.insertBefore(li, li.nextElementSibling.nextElementSibling);
         }
     }
@@ -125,6 +163,11 @@
 
         applyDeleteSelf(li);
         applyMoveSelf(li);
+
+        li.addEventListener('animationend', e => {
+            e.target.closest('li').classList.remove('animation-up');
+            e.target.closest('li').classList.remove('animation-down');
+        })
 
         list.appendChild(li);
     }
