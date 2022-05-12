@@ -8,11 +8,21 @@
             font-family: "Helvetica Neue", sans-serif;
             font-weight: 300;
         }
+
+        form,
+        button {
+            margin: 0;
+        }
     </style>
 </head>
 
 <h1>Telefonbuch 9000</h1>
-
+<form>
+    <input type="text" id="firstname" name="firstname" required>
+    <input type="text" id="name" name="name" required>
+    <input type="text" id="phone-number" name="phoneNumber" pattern="[\+]?[0-9 ]+" required><br>
+    <button type="submit">Eintrag hinzufügen</button>
+</form>
 <ul id="liste">
     <li>Homer Simpson <strong>071 123 45 67</strong></li>
     <li>Lisa Simpson <strong>071 123 45 68</strong></li>
@@ -33,6 +43,81 @@
        Zusatzaufgabe (wenn du Fertig bist): Bau auf jeder Zeile einen Button ein, mit dem du die Zeile löschen kannst.
        Sieh dir dazu event.target auf MDN an.
     */
+
+    let form = document.querySelector('form');
+    let submitButton = document.querySelector('button[type="submit"]');
+    let list = document.querySelector('#liste');
+
+    let checkValidity = () => {
+        let isValid = true;
+        let inputs = document.querySelectorAll('input');
+
+        for (let input of inputs) {
+            isValid = isValid && input.checkValidity();
+        }
+
+        if (isValid) {
+            submitButton.disabled = false;
+        } else {
+            submitButton.disabled = true;
+        }
+
+        return isValid;
+    }
+
+    let getFormValues = () => {
+        let formData = new FormData(form);
+        let obj = {};
+
+        for(let entry of formData.entries()){
+            obj[entry[0]] = entry[1];
+        }
+
+        return obj;
+    }
+
+    let addEntry = (entry) => {
+        let li = document.createElement('li');
+
+        li.innerHTML = `${entry.firstname} ${entry.firstname} <strong>${entry.phoneNumber}</strong>`;
+
+        applyDeleteSelf(li);
+
+        list.appendChild(li);
+    }
+
+    let applyDeleteSelf = (el) => {
+        let deleteButton = document.createElement('button');
+        deleteButton.innerHTML = 'Löschen';
+
+        deleteButton.addEventListener('click', deleteClosestListItem);
+
+        el.appendChild(deleteButton);
+    }
+
+    let deleteClosestListItem = (e) => {
+        e.target.closest('li').remove();
+    }
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        if(checkValidity()) {
+            addEntry(getFormValues());
+
+            form.reset();
+
+            form.querySelector('input').focus();
+        }
+    });
+
+    checkValidity();
+
+    document.querySelectorAll('input').forEach((input) => input.addEventListener('input', () => {
+        checkValidity();
+    }));
+
+    list.querySelectorAll('li').forEach(el => applyDeleteSelf(el));
 
 </script>
 </body>
