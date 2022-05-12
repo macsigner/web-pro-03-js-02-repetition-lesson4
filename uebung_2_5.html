@@ -8,6 +8,10 @@
             font-family: "Helvetica Neue", sans-serif;
             font-weight: 300;
         }
+
+        button {
+            margin: 0;
+        }
     </style>
 </head>
 
@@ -48,6 +52,34 @@
         {firstname: "Hugo", name: "Simpson", age: 10, sex: 'm'},
     ];
 
+    let list = document.querySelector('#liste');
+
+    let applyDeleteSelf = (el) => {
+        let deleteButton = document.createElement('button');
+        deleteButton.innerHTML = 'Löschen';
+
+        deleteButton.addEventListener('click', deleteClosestListItem);
+
+        el.appendChild(deleteButton);
+    }
+
+    let deleteClosestListItem = (e) => {
+        e.target.closest('li').remove();
+    }
+
+    let addEntry = (entry) => {
+        let li = document.createElement('li');
+
+        li.innerHTML = `${entry.firstname} ${entry.firstname}, <em>${entry.age}</em>`;
+
+        applyDeleteSelf(li);
+
+        list.appendChild(li);
+    }
+
+    for (let simpson of simpsons) {
+        addEntry(simpson);
+    }
 </script>
 </body>
 </html>
