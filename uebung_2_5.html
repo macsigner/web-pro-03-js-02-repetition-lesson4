@@ -12,6 +12,22 @@
         button {
             margin: 0;
         }
+
+        .move-wrapper {
+            display: inline-flex;
+        }
+
+        .move-wrapper button {
+            padding: 0;
+        }
+
+        .move-wrapper button + button {
+            margin-left: 4px;
+        }
+
+        .move-wrapper .up {
+            transform: scale(-1);
+        }
     </style>
 </head>
 
@@ -63,8 +79,43 @@
         el.appendChild(deleteButton);
     }
 
+    let applyMoveSelf = (el) => {
+        let upButton = document.createElement('button');
+        upButton.innerHTML = '▾';
+        upButton.classList.add('up');
+        let downButton = document.createElement('button');
+        downButton.innerHTML = '▾';
+        downButton.classList.add('down');
+
+        upButton.addEventListener('click', moveClosestListItemUp);
+        downButton.addEventListener('click', moveClosestListItemDown);
+
+        let moveWrapper = document.createElement('span');
+        moveWrapper.classList.add('move-wrapper');
+        moveWrapper.appendChild(upButton);
+        moveWrapper.appendChild(downButton);
+        el.appendChild(moveWrapper);
+    }
+
     let deleteClosestListItem = (e) => {
         e.target.closest('li').remove();
+    }
+
+    let moveClosestListItemUp = (e) => {
+        let li = e.target.closest('li');
+
+        if (li.parentNode.firstElementChild !== li) {
+            console.log('up');
+            li.parentNode.insertBefore(li, li.previousElementSibling);
+        }
+    }
+
+    let moveClosestListItemDown = (e) => {
+        let li = e.target.closest('li');
+
+        if (li.parentNode.lastElementChild !== li) {
+            li.parentNode.insertBefore(li, li.nextElementSibling.nextElementSibling);
+        }
     }
 
     let addEntry = (entry) => {
@@ -73,6 +124,7 @@
         li.innerHTML = `${entry.firstname} ${entry.firstname}, <em>${entry.age}</em>`;
 
         applyDeleteSelf(li);
+        applyMoveSelf(li);
 
         list.appendChild(li);
     }
